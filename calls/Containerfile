@@ -45,4 +45,4 @@ LABEL org.opencontainers.image.vendor="4PSA, Inc"
 
 # Specify the command to run the application
 # Use shell form so $PORT from Railway is expanded at runtime
-CMD node dist/index.js --transport streamable-http --port ${PORT:-3000} --address 0.0.0.0 --config /app/config.json
+CMD node dist/index.js --transport streamable-http --port ${PORT:-3000} --address 0.0.0.0 --secure --config /app/config.json
