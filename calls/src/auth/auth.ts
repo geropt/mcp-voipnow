@@ -68,20 +68,21 @@ function getStoredToken(logger: Logger, configMCPPath: string): string {
             return configCache.token;
         }
 
-        // Read and cache
+        // Read and cache (env var takes precedence over config file)
         const configMCP = JSON.parse(fs.readFileSync(configMCPPath, 'utf-8'));
-        if (!configMCP.authTokenMCP) {
+        const authToken = process.env.VOIPNOW_AUTH_TOKEN || configMCP.authTokenMCP;
+        if (!authToken) {
             logger.error(ERROR_MESSAGES.TOKEN_NOT_FOUND);
             throw new Error(ERROR_MESSAGES.TOKEN_NOT_FOUND);
         }
 
         configCache = {
-            token: configMCP.authTokenMCP,
+            token: authToken,
             path: configMCPPath,
             mtime: currentMtime
         };
 
-        return configMCP.authTokenMCP;
+        return authToken;
     } catch (error: any) {
         // Clear cache on error
         configCache = null;
