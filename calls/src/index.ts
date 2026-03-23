@@ -438,6 +438,7 @@ async function main(): Promise<void> {
   try {
     // Parse command line arguments
     const options = parseCommandLine();
+    process.stderr.write(`[DEBUG] Options parsed: transport=${options.transport}, port=${options.port}, address=${options.address}\n`);
 
     // Set log transport early
     setLogTransport(options.log_transport);
@@ -446,15 +447,20 @@ async function main(): Promise<void> {
     const configManager = new ConfigurationManager(options.config);
     await configManager.initialize();
     const mcpConfig = configManager.getMCPConfig();
+    process.stderr.write(`[DEBUG] Config loaded, tokenFile=${mcpConfig.voipnowTokenFile}\n`);
 
     // Set log level from config
     setLogLevel(mcpConfig.logLevel);
 
     // Perform configuration checks
+    process.stderr.write(`[DEBUG] Running checks...\n`);
     await utils.checks(options, mcpConfig);
+    process.stderr.write(`[DEBUG] Checks passed\n`);
 
     // Initialize dynamic tool registry
+    process.stderr.write(`[DEBUG] Initializing tools...\n`);
     await initializeTools("tools", logger);
+    process.stderr.write(`[DEBUG] Tools initialized\n`);
 
     // Create and setup server manager
     const serverManager = new ServerManager(configManager);
@@ -469,11 +475,14 @@ async function main(): Promise<void> {
     await checkTokenExpiration(mcpConfig, 300000, () => {
       logger.debug('Token is still valid.');
     });
+    process.stderr.write(`[DEBUG] Token expiration check started\n`);
 
     // Start the MCP server
+    process.stderr.write(`[DEBUG] Starting server on ${options.address}:${options.port}...\n`);
     await serverManager.startServer(options.transport, options.port, options.address, options.secure, options.config);
 
-  } catch (error) {
+  } catch (error: any) {
+    process.stderr.write(`[FATAL] ${error.message}\n${error.stack}\n`);
     logError('Fatal error in main application:', error);
     process.exit(1);
   }
