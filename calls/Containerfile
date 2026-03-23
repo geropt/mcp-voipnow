@@ -44,4 +44,4 @@ LABEL org.opencontainers.image.description="To be used for running VoipNow Calls
 LABEL org.opencontainers.image.vendor="4PSA, Inc"
 
 # Specify the command to run the application
-ENTRYPOINT ["node", "dist/index.js", "--transport", "streamable-http", "--port", "3000", "--config", "/app/config.json"]
+ENTRYPOINT ["node", "dist/index.js", "--transport", "streamable-http", "--port", "3000", "--address", "0.0.0.0", "--config", "/app/config.json"]
