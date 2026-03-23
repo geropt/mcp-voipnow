@@ -67,6 +67,12 @@ class ConfigurationManager {
       config.voipnowTokenFile = path.join(path.dirname(this.configPath), '.access_token');
     }
 
+    // Allow environment variables to override config file secrets
+    if (process.env.VOIPNOW_HOST) config.voipnowHost = process.env.VOIPNOW_HOST;
+    if (process.env.VOIPNOW_APP_ID) config.appId = process.env.VOIPNOW_APP_ID;
+    if (process.env.VOIPNOW_APP_SECRET) config.appSecret = process.env.VOIPNOW_APP_SECRET;
+    if (process.env.VOIPNOW_AUTH_TOKEN) config.authTokenMCP = process.env.VOIPNOW_AUTH_TOKEN;
+
     return config;
   }
 
