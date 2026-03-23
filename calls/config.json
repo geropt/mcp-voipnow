@@ -1,0 +1,7 @@
+{
+  "voipnowHost": "https://portalarg.net2phoneoffice.com",
+  "appId": "1WPz8pz",
+  "appSecret": "01whRfnf5yJmzJDDKFBsIa9lJH78g9Zc",
+  "logLevel": "warn",
+  "insecure": false
+}

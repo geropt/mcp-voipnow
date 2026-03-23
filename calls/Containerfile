@@ -37,9 +37,11 @@ RUN apk add --no-cache python3 make g++ \
     && apk del python3 make g++
 
 
+COPY config.json ./
+
 LABEL org.opencontainers.image.title="VoipNow Calls MCP server"
 LABEL org.opencontainers.image.description="To be used for running VoipNow Calls MCP server"
 LABEL org.opencontainers.image.vendor="4PSA, Inc"
 
 # Specify the command to run the application
-ENTRYPOINT ["node", "dist/index.js"]
+ENTRYPOINT ["node", "dist/index.js", "--transport", "streamable-http", "--port", "3000", "--config", "/app/config.json"]
