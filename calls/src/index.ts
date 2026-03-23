@@ -62,6 +62,11 @@ class ConfigurationManager {
       config.insecure = config.insecure === true || config.insecure === 'true';
     }
 
+    // Set default token file path if not specified
+    if (!config.voipnowTokenFile) {
+      config.voipnowTokenFile = path.join(path.dirname(this.configPath), '.access_token');
+    }
+
     return config;
   }
 
